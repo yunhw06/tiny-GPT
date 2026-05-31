@@ -16,8 +16,7 @@ tiny-GPT/
 ├─ model.py
 ├─ train.py
 ├─ util.py
-├─ README.md
-└─ limitation.md
+└─ README.md
 ```
 
 ## 파일 역할
@@ -29,7 +28,6 @@ tiny-GPT/
 - `train.py`: loss 계산과 학습 루프를 담당합니다.
 - `inference.py`: 학습된 모델로 텍스트를 생성하는 `sample_gpt()`를 담고 있습니다.
 - `main.py`: 데이터 로드부터 학습, 샘플 생성까지 전체 흐름을 실행합니다.
-- `limitation.md`: 현재 코드의 한계와 개선할 점을 정리한 문서입니다.
 
 ## 전체 흐름
 
@@ -108,5 +106,3 @@ logits.shape: torch.Size([64, 64, vocab_size])
 - layer normalization
 - feed-forward network
 - autoregressive sampling
-
-현재 어색한 부분과 개선점은 `limitation.md`에 정리했습니다. 단, `limitation.md`는 개인 메모 성격이라 `.gitignore`에 추가되어 있습니다.
