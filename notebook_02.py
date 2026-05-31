@@ -82,7 +82,7 @@ for epoch in range(30):
     if epoch % 5 == 0 or epoch == 29:
         print(f"epoch {epoch:2d} | train loss {train_loss:.4f}")
 
-  @torch.no_grad()
+@torch.no_grad()
 def sample(model, block_size, itos, device, num_samples=10, max_len=20):
     model.eval()
     results = []
