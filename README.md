@@ -16,8 +16,7 @@ tiny-GPT/
 ├─ model.py
 ├─ train.py
 ├─ util.py
-├─ README.md
-└─ limitation.md
+└─ README.md
 ```
 
 ## 파일 역할
