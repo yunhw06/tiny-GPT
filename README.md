@@ -1,6 +1,6 @@
-﻿# Tiny GPT 모듈 설명
+﻿# Tiny GPT
 
-이 프로젝트는 문자 단위(character-level) Tiny GPT를 학습부터 추론까지 나누어 구현한 예제입니다. 전체 흐름은 `data/input.txt`를 읽고, 문자를 숫자 토큰으로 바꾼 뒤, Transformer 기반 모델을 학습하고, 학습된 모델로 새 문장을 생성하는 방식입니다.
+이 프로젝트는 문자 단위(character-level) Tiny GPT를 학습부터 추론까지 나누어 구현한 예제입니다. 전체 흐름은 data/input.txt를 읽고, 문자를 숫자 토큰으로 바꾼 뒤, Transformer 기반 모델을 학습하고, 학습된 모델로 새 문장을 생성하는 방식입니다.
 
 ## 현재 폴더 구조
 
@@ -106,3 +106,8 @@ logits.shape: torch.Size([64, 64, vocab_size])
 - layer normalization
 - feed-forward network
 - autoregressive sampling
+
+##정리
+
+이 프로젝트는 문자 단위 Tiny GPT를 직접 구현하면서, 데이터 전처리부터 학습과 추론까지의 전체 흐름을 이해하기 위한 실습용 예제입니다. 복잡한 대규모 언어모델보다는 Transformer 기반 언어모델의 핵심 구조를 학습하는 데 초점을 두었습니다.
+
