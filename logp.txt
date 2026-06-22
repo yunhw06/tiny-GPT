@@ -99,7 +99,7 @@ epoch 96 | train loss 0.0619
 epoch 97 | train loss 0.0611
 epoch 98 | train loss 0.0610
 epoch 99 | train loss 0.0608
-별: 하나에 추제 쓸쓸함과
+별 하나에 추제 쓸쓸함과
 
 별 하나에 동경과
 
