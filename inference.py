@@ -28,8 +28,6 @@ def sample_gpt(model, info, device, start_text="ROMEO:", max_new_tokens=400):
     for _ in range(max_new_tokens):
         logits = model(context)  # 현재 문맥에 대한 로짓 계산
         logits = logits[:, -1, :]  # 마지막 위치의 예측만 사용
-        temperature = 0.8  
-        logits = logits / temperature
         probs = F.softmax(logits, dim=-1)  # 로짓을 확률로 변환
         ix = torch.multinomial(probs, num_samples=1)  # 확률에 따라 다음 문자 샘플링
         out.append(itos[ix.item()])  # 인덱스를 문자로 바꿔 결과에 추가
