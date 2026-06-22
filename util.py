@@ -10,10 +10,10 @@ def load_dataloader(text_path, block_size, batch_size = 64):
 
     vocab_size = len(chars)  # vocab 크기
     data = torch.tensor([stoi[ch] for ch in text], dtype=torch.long)  # 전체 텍스트를 숫자 시퀀스로 변환
-    block_size = block_size # 64  
+    
     dataset = NextTokenDataset(data, block_size)  # next-token prediction용 데이터셋 생성
 
-    loader = DataLoader(dataset, batch_size, shuffle=True)  # 데이터셋을 미니배치로 불러오는 DataLoader 생성
+    loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)  # 데이터셋을 미니배치로 불러오는 DataLoader 생성
 
     # 모델과 추론에 필요한 정보 저장
     info = {
