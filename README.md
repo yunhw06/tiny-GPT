@@ -418,7 +418,7 @@ python main.py
 ```python
 block_size = 64
 batch_size = 64
-num_epochs = 30
+num_epochs = 100
 max_steps_per_epoch = 300
 learning_rate = 3e-4
 ```
@@ -445,59 +445,8 @@ dropout = 0.1
 
 ---
 
-## 9. 주의사항
 
-### 9.1 이 모델은 문자 단위 모델입니다
-
-현재 코드는 단어 단위 tokenizer를 사용하지 않습니다.
-
-```python
-chars = sorted(list(set(text)))
-```
-
-따라서 모델은 단어가 아니라 문자 단위로 학습합니다.
-
----
-
-### 9.2 데이터가 작으면 쉽게 암기할 수 있습니다
-
-짧은 시 한 편이나 짧은 텍스트만 학습시키면 모델은 일반적인 언어 능력을 배우기보다 원문을 암기할 가능성이 큽니다.
-
-학습이 부족하면 이상한 글자 조합이 나오고, 학습이 과하면 원문을 거의 그대로 생성할 수 있습니다.
-
----
-
-### 9.3 Validation set이 없습니다
-
-현재 코드는 train loss만 계산합니다.  
-따라서 모델이 실제로 일반화하는지, 단순히 학습 데이터를 외우는지 확인하기 어렵습니다.
-
-개선하려면 train/validation split을 추가하고 validation loss를 함께 확인하는 것이 좋습니다.
-
----
-
-### 9.4 초기 context가 0으로 채워집니다
-
-```python
-context = torch.zeros((1, block_size), dtype=torch.long, device=device)
-```
-
-현재 구현에서는 별도의 padding token이 없기 때문에, `0`은 실제 문자 index입니다.  
-따라서 초기 context가 특정 문자 반복으로 해석될 수 있습니다.
-
----
-
-### 9.5 학습 데이터에 없는 문자는 추론에서 무시됩니다
-
-```python
-if ch in stoi:
-```
-
-`start_text`에 학습 데이터에 없는 문자가 포함되어 있으면 해당 문자는 context에 들어가지 않습니다.
-
----
-
-## 10. 예시 출력
+## 9. 예시 출력
 
 학습이 완료되면 `sample_gpt()` 함수를 통해 다음과 같이 텍스트를 생성할 수 있습니다.
 
@@ -515,7 +464,7 @@ generated_text = sample_gpt(
 
 ---
 
-## 11. 라이선스 및 목적
+## 10. 라이선스 및 목적
 
 이 코드는 교육용 TinyGPT 구현입니다.  
 실제 대규모 GPT 모델과 달리 문자 단위 tokenizer와 작은 Transformer 구조를 사용하며, Transformer 언어모델의 핵심 원리를 이해하기 위한 목적으로 작성되었습니다.
