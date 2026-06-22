@@ -340,24 +340,8 @@ logits = logits[:, -1, :]
 
 ---
 
-### 6.1 Temperature
 
-```python
-temperature = 0.8
-logits = logits / temperature
-```
-
-Temperature는 생성 확률분포의 sharpness를 조절합니다.
-
-| Temperature | 생성 경향 |
-|---|---|
-| 낮음 | 더 결정적이고 반복적인 출력 |
-| 1.0 | 기본 softmax 분포 |
-| 높음 | 더 다양하지만 불안정한 출력 |
-
----
-
-### 6.2 Multinomial Sampling
+### 6.1 Multinomial Sampling
 
 ```python
 ix = torch.multinomial(probs, num_samples=1)
@@ -367,7 +351,7 @@ ix = torch.multinomial(probs, num_samples=1)
 
 ---
 
-### 6.3 Context 업데이트
+### 6.2 Context 업데이트
 
 ```python
 context = torch.cat([context[:, 1:], ix], dim=1)
