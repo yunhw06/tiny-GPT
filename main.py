@@ -6,8 +6,8 @@ from train import train  # 학습 함수 import
 
 if __name__ == "__main__":  # 현재 파일을 직접 실행할 때만 아래 코드를 수행
     
-    loader, info = load_dataloader("./data/novel.txt", block_size=64, batch_size=64)
-    # data/input2.txt 파일을 읽어서 DataLoader와 모델에 필요한 정보(info)를 생성
+    loader, info = load_dataloader("./data/poet.txt", block_size=64, batch_size=64)
+    # data/poet.txt 파일을 읽어서 DataLoader와 모델에 필요한 정보(info)를 생성
     # block_size=64는 한 번에 보는 문맥 길이
     # batch_size=64는 한 번에 학습하는 샘플 수
 
@@ -40,15 +40,15 @@ if __name__ == "__main__":  # 현재 파일을 직접 실행할 때만 아래 �
 
     model = train(model, loader, optimizer, device, num_epochs=100, max_steps_per_epoch=300)
     # 모델 학습 수행
-    # num_epochs=50: 전체 데이터 반복 횟수
+    # num_epochs=100: 전체 데이터 반복 횟수
     # max_steps_per_epoch=300: 한 epoch당 최대 300 step까지만 학습
 
-    generated_text = sample_gpt(model, info, device, start_text="설렁탕을:", max_new_tokens=500)
+    generated_text = sample_gpt(model, info, device, start_text="별:", max_new_tokens=500)
     print(generated_text)
     with open("logt.txt", "w", encoding="utf-8") as log_file:
         log_file.write(generated_text + "\n")
     # 학습된 모델을 이용해 "경제:"으로 시작하는 텍스트를 생성
     # 최대 500개의 새 토큰(문자)을 생성해서 출력
     # 생성된 텍스트를 콘솔 화면에 출력하여 확인
-    # "log2.txt"라는 파일을 만들어서 열기
+    # "logp.txt"라는 파일을 만들어서 열기
     # 파일 안에 만들어진 글을 쓰고 저장 (끝에 줄바꿈 추가)
