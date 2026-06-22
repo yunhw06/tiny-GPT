@@ -45,7 +45,7 @@ if __name__ == "__main__":  # 현재 파일을 직접 실행할 때만 아래 �
 
     generated_text = sample_gpt(model, info, device, start_text="별:", max_new_tokens=500)
     print(generated_text)
-    with open("logt.txt", "w", encoding="utf-8") as log_file:
+    with open("logp.txt", "w", encoding="utf-8") as log_file:
         log_file.write(generated_text + "\n")
     # 학습된 모델을 이용해 "경제:"으로 시작하는 텍스트를 생성
     # 최대 500개의 새 토큰(문자)을 생성해서 출력
