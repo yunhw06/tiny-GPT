@@ -1,5 +1,5 @@
 import torch  # PyTorch import
-from torch.utils.data import Dataset, DataLoader  # DataLoader import
+from torch.utils.data import DataLoader  # DataLoader import
 from dataset import NextTokenDataset  # 사용자 정의 Dataset import
 
 def load_dataloader(text_path, block_size, batch_size = 64):
