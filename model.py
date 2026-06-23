@@ -20,56 +20,52 @@ class Head(nn.Module):  # 단일 self-attention head
         q = self.query(x)  # query 계산
         v = self.value(x)  # value 계산
 
-        # scaled dot-product attention score 계산
-        wei = q @ k.transpose(-2, -1) * (k.size(-1) ** -0.5)
-        # 현재 시점 이후의 미래 토큰은 보지 못하도록 mask 적용
-        wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf"))
-        # attention score를 확률분포로 변환
-        wei = F.softmax(wei, dim=-1)
-        # dropout 적용
-        wei = self.dropout(wei)
-        # attention weight와 value를 곱해 출력 생성
-        out = wei @ v
+        
+        wei = q @ k.transpose(-2, -1) * (k.size(-1) ** -0.5) # attention score 계산
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf")) # 현재 시점 이후의 미래 토큰은 보지 못하도록 mask 적용
+        wei = F.softmax(wei, dim=-1) # attention score를 확률분포로 변환
+        wei = self.dropout(wei) # dropout 적용
+        out = wei @ v # attention weight와 value를 곱해 출력 생성
         return out
 
 class MultiHeadAttention(nn.Module):  # 여러 attention head를 병렬로 사용하는 모듈
     def __init__(self, emb_dim, num_heads, block_size, dropout=0.1):
         super().__init__()
         head_size = emb_dim // num_heads  # 각 head가 담당할 차원 수
-        self.heads = nn.ModuleList([Head(emb_dim, head_size, block_size, dropout) for _ in range(num_heads)])  # num_heads 개수만큼 Head 생성
-        self.proj = nn.Linear(emb_dim, emb_dim)  # 여러 head의 출력을 다시 emb_dim 차원으로 합치는 선형층
-        self.dropout = nn.Dropout(dropout)  # 출력 dropout
+        self.heads = nn.ModuleList([Head(emb_dim, head_size, block_size, dropout) for _ in range(num_heads)])  
+        self.proj = nn.Linear(emb_dim, emb_dim)  
+        self.dropout = nn.Dropout(dropout)  
 
     def forward(self, x):
-        out = torch.cat([h(x) for h in self.heads], dim=-1)   # 각 head의 출력을 마지막 차원 기준으로 연결
-        out = self.proj(out)  # 연결된 출력을 다시 emb_dim 차원으로 변환
-        out = self.dropout(out)  # dropout 적용
+        out = torch.cat([h(x) for h in self.heads], dim=-1)  
+        out = self.proj(out)  
+        out = self.dropout(out) 
         return out
 
-class FeedForward(nn.Module):  # 각 위치별로 독립적으로 적용되는 FFN
+class FeedForward(nn.Module):  
     def __init__(self, emb_dim, dropout=0.1):
         super().__init__()
         self.net = nn.Sequential(
-            nn.Linear(emb_dim, 4 * emb_dim),  # 차원 확장
-            nn.ReLU(),  # 비선형 함수
-            nn.Linear(4 * emb_dim, emb_dim),  # 원래 차원으로 축소
-            nn.Dropout(dropout),  # dropout 적용
+            nn.Linear(emb_dim, 4 * emb_dim),  
+            nn.ReLU(),  
+            nn.Linear(4 * emb_dim, emb_dim),  
+            nn.Dropout(dropout),  
         )
 
     def forward(self, x):
-        return self.net(x)  # FFN 결과 반환
+        return self.net(x)  
 
-class Block(nn.Module):  # Transformer decoder block 하나
+class Block(nn.Module):  
     def __init__(self, emb_dim, num_heads, block_size, dropout=0.1):
         super().__init__()
-        self.ln1 = nn.LayerNorm(emb_dim)  # attention 전에 적용할 layer norm
-        self.sa = MultiHeadAttention(emb_dim, num_heads, block_size, dropout)  # self-attention
-        self.ln2 = nn.LayerNorm(emb_dim)  # FFN 전에 적용할 layer norm
-        self.ffwd = FeedForward(emb_dim, dropout)  # feed-forward network
+        self.ln1 = nn.LayerNorm(emb_dim)  
+        self.sa = MultiHeadAttention(emb_dim, num_heads, block_size, dropout)  
+        self.ln2 = nn.LayerNorm(emb_dim)  
+        self.ffwd = FeedForward(emb_dim, dropout)  
 
     def forward(self, x):
-        x = x + self.sa(self.ln1(x))  # pre-norm self-attention + residual connection
-        x = x + self.ffwd(self.ln2(x))  # pre-norm FFN + residual connection
+        x = x + self.sa(self.ln1(x))  
+        x = x + self.ffwd(self.ln2(x))  
         return x 
 
 class TinyGPT(nn.Module):  # 전체 GPT 스타일 언어모델
