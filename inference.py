@@ -11,7 +11,7 @@ def sample_gpt(model, info, device, start_text="ROMEO:", max_new_tokens=400):
     stoi = info["stoi"]  # 문자 -> 인덱스 사전
     itos = info["itos"]  # 인덱스 -> 문자 사전
 
-    model.eval()  # dropout 등을 비활성화하는 평가 모드로 전환
+    model.eval()  #dropout 비활성화
 
     # 초기 context를 0으로 채운다. shape: (배치 크기 1, block_size)
     context = torch.zeros((1, block_size), dtype=torch.long, device=device)
